@@ -6,6 +6,6 @@ public class Attraction
 {
     [Key]
     public int Id { get; set; }
-    public required string Contenet { get; set; }
+    public required string Content { get; set; }
     public ICollection<Voucher>? Vouchers { get; set; }
 }
