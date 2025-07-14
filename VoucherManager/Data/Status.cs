@@ -1,11 +1,10 @@
-﻿namespace VoucherManager.Data
+﻿namespace VoucherManager.Data;
+
+public enum Status
 {
-    public enum Status
-    {
-        Aktywny,
-        Nieaktywny,
-        Zrealizowany,
-        Niezrealizowany,
-        Anulowany,
-    }
+    Aktywny,
+    Nieaktywny,
+    Zrealizowany,
+    Niezrealizowany,
+    Anulowany,
 }
