@@ -10,7 +10,7 @@ public class Voucher
     public required string SerialNumber { get; set; }
     public required string VoucherType { get; set; }
     public Decimal? Amount { get; set; }
-    public required DateTime SellDate { get; set; }
+    public DateTime SellDate { get; set; }
     public required DateTime ExpirationDate { get; set; }
     public required string Resort { get; set; }
     public required Status Status { get; set; }
