@@ -1,4 +1,28 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿$(function () {
+    let voucherTable = $('#VoucherTable').DataTable({
+        "ajax": {
+            "url": "/Voucher/GetVouchers",
+            "type": "GET",
+            "datatype": "json",
+        },
+        "columns": [
+            { "data": "serialNumber" },
+            { "data": "amount" },
+            { "data": "sellDate" },
+            { "data": "expirationDate" },
+            { "data": "resort" }, 
+            { "data": "status" }
+        ],
+        "responsive": true,
+        "language": {
+            "search": "Wyszukaj",
+            "info": "Wyświetlanie _START_ do _END_ z _TOTAL_ wierszy",
+            "lengthMenu": "Wyświetl _MENU_ wierszy na stronę",
+            "infoFiltered": "(przefiltrowano z _MAX_ wszystkich rekordów)",
+            "emptyTable": "Brak danych do wyświetlenia",
+            "zeroRecords": "Brak wyników spełniających kryteria wyszukiwania",
+            "infoEmpty": "Brak wyników do wyświetlenia",
 
-// Write your JavaScript code.
+        },
+    });
+});

@@ -16,10 +16,10 @@ public class VoucherController : Controller
         return View();
     }
     [HttpGet]
-    public async Task<IActionResult> GetVouchers()
+    public async Task<JsonResult> GetVouchers()
     {
         var vouchers = await _voucherRepository.GetAllVouchersAsync();
-        var voucherDtos = vouchers.Select(v => v.ToVoucherDto()).ToList();
-        return Json(vouchers);
+        var vouchersDto = vouchers.Select(v => v.ToVoucherDto()).ToList();
+        return Json(new {data = vouchersDto});
     }
 }
