@@ -1,10 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using VoucherManager.Data;
+using VoucherManager.Interfaces;
+using VoucherManager.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IVoucherRepository, VoucherRepository>();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 

@@ -1,11 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using VoucherManager.Interfaces;
 
 namespace VoucherManager.Controllers;
 
 public class VoucherController : Controller
 {
-    public IActionResult Index()
+    private readonly IVoucherRepository _voucherRepository;
+    public VoucherController(IVoucherRepository voucherRepository)
     {
-        return View();
+        _voucherRepository = voucherRepository;
+    }
+    public async Task<IActionResult> Index()
+    {
+        var vouchers = await _voucherRepository.GetAllVouchersAsync();
+
+        return View(vouchers);
     }
 }
