@@ -9,57 +9,30 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table id="VoucherTable" class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.VoucherType)
+                Nr Seryjny
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Amount)
+                Kwota
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SellDate)
+                Data Sprzedaży
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ExpirationDate)
+                Data Ważności
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Resort)
+                Ośrodek
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Status)
+                Status
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.VoucherType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SellDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExpirationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Resort)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.SerialNumber">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.SerialNumber">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.SerialNumber">Delete</a>
-            </td>
-        </tr>
-}
     </tbody>
 </table>

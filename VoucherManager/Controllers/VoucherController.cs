@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VoucherManager.Interfaces;
+using VoucherManager.Mappers;
 
 namespace VoucherManager.Controllers;
 
@@ -10,10 +11,15 @@ public class VoucherController : Controller
     {
         _voucherRepository = voucherRepository;
     }
-    public async Task<IActionResult> Index()
+    public IActionResult Index()
+    {
+        return View();
+    }
+    [HttpGet]
+    public async Task<IActionResult> GetVouchers()
     {
         var vouchers = await _voucherRepository.GetAllVouchersAsync();
-
-        return View(vouchers);
+        var voucherDtos = vouchers.Select(v => v.ToVoucherDto()).ToList();
+        return Json(vouchers);
     }
 }
