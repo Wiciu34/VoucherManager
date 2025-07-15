@@ -11,7 +11,15 @@
             { "data": "sellDate" },
             { "data": "expirationDate" },
             { "data": "resort" }, 
-            { "data": "status" }
+            { "data": "status" },
+            {
+                "data": null,
+                "render": function (data, type, row) {
+                    return `<a href="/Details/${row.serialNumber}" class="btn btn-success">Szczegóły</a>`
+                    
+                            
+                },
+            }
         ],
         "responsive": true,
         "language": {

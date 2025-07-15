@@ -22,4 +22,24 @@ public class VoucherController : Controller
         var vouchersDto = vouchers.Select(v => v.ToVoucherDto()).ToList();
         return Json(new {data = vouchersDto});
     }
+
+    [HttpGet("Details/{serialNumber}")]
+    public async Task<IActionResult> Details(string serialNumber)
+    {
+        if (string.IsNullOrEmpty(serialNumber))
+        {
+            return BadRequest("Serial number is required.");
+        }
+
+        var voucher = await _voucherRepository.GetVoucherBySerialNumberAsync(serialNumber);
+
+        if (voucher == null)
+        {
+            return NotFound("Voucher not found.");
+        }
+
+        var voucherDto = voucher.ToVoucherDto();
+
+        return View(voucher);
+    }
 }

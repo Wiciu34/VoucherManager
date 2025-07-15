@@ -17,4 +17,21 @@ public class VoucherRepository : IVoucherRepository
         var vouchers = await _context.Vouchers.ToListAsync();
         return vouchers;
     }
+    public async Task<Voucher> GetVoucherBySerialNumberAsync(string serialNumber)
+    {
+        if (string.IsNullOrEmpty(serialNumber))
+        {
+            throw new ArgumentException("Serial number cannot be null or empty.", nameof(serialNumber));
+        }
+        
+        var voucher = await _context.Vouchers
+            .FirstOrDefaultAsync(v => v.SerialNumber == serialNumber);
+
+        if (voucher == null)
+        {
+            throw new KeyNotFoundException($"Voucher with serial number '{serialNumber}' not found.");
+        }
+
+        return voucher;
+    }
 }

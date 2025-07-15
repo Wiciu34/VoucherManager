@@ -1,0 +1,51 @@
+﻿@model VoucherManager.Models.Voucher
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Vouchera: @Model.SerialNumber</h1>
+
+<div>
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Typ Vouchera:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.VoucherType)
+        </dd>
+        <dt class = "col-sm-2">
+            Kwota:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+        <dt class = "col-sm-2">
+            Data Sprzedaży:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SellDate)
+        </dd>
+        <dt class = "col-sm-2">
+            Data ważności:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ExpirationDate)
+        </dd>
+        <dt class = "col-sm-2">
+            Ośrodek:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Resort)
+        </dd>
+        <dt class = "col-sm-2">
+            Status:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Wróć do listy</a>
+</div>
