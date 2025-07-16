@@ -1,21 +1,26 @@
-﻿
+﻿@model VoucherManager.ViewModels.ActivationVoucherViewModel
+
 <div class="container mb-5">  
     <h1 class="text-center mt-5 mb-5">Aktywuj Voucher</h1>  
     <div class="row justify-content-center">  
         <div class="col-md-6">
             <div class="card shadow p-5">
                 <form asp-action="ActivateVoucher" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="mb-3">
-                        <label for="serialNumber" class="form-label">Numer seryjny vouchera</label>
-                        <input type="text" class="form-control" id="serialNumber" name="serialNumber" required>
+                        <label asp-for="SerialNumber" class="form-label"></label>
+                        <input asp-for="SerialNumber" class="form-control" />
+                        <span asp-validation-for="SerialNumber" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
-                        <label for="serialNumber" class="form-label">Adres e-mail</label>
-                        <input type="email" class="form-control" id="serialNumber" name="serialNumber" required>
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
-                        <label for="serialNumber" class="form-label">Numer telefonu</label>
-                        <input type="text" class="form-control" id="serialNumber" name="serialNumber" required>
+                        <label asp-for="PhoneNumber" class="form-label"></label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                     </div>
                     <div class="d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary">Aktywuj Voucher</button>
