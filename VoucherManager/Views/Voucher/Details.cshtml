@@ -1,4 +1,4 @@
-﻿@model VoucherManager.Models.Voucher
+﻿@model VoucherManager.DTOs.VoucherDTO
 
 @{
     ViewData["Title"] = "Details";
@@ -46,6 +46,16 @@
         </dd>
     </dl>
 </div>
+@if (Model.Attractions.Any())
+{
+    <h2>Lista Atrakcji</h2>
+    <ul>
+        @foreach (var item in Model.Attractions)
+        {
+            <li>@item.Content</li>
+        }
+    </ul>
+}
 <div>
     <a asp-action="Index">Wróć do listy</a>
 </div>

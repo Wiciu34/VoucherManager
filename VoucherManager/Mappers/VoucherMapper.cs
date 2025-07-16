@@ -16,7 +16,11 @@ public static class VoucherMapper
             SellDate = voucher.SellDate?.ToString("yyyy-MM-dd"),
             ExpirationDate = voucher.ExpirationDate.ToString("yyyy-MM-dd"),
             Resort = voucher.Resort,
-            Status = voucher.Status.ToString()
+            Status = voucher.Status.ToString(),
+            Attractions = voucher.Attractions?.Select(a => new AttractionDTO
+            {
+                Content = a.Content
+            }).ToList()
         };
     }
 }

@@ -40,6 +40,6 @@ public class VoucherController : Controller
 
         var voucherDto = voucher.ToVoucherDto();
 
-        return View(voucher);
+        return View(voucherDto);
     }
 }

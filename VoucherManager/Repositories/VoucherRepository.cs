@@ -25,6 +25,8 @@ public class VoucherRepository : IVoucherRepository
         }
         
         var voucher = await _context.Vouchers
+            .Include(a => a.Attractions)
+            .AsNoTracking()
             .FirstOrDefaultAsync(v => v.SerialNumber == serialNumber);
 
         if (voucher == null)
