@@ -11,9 +11,10 @@ public class Voucher
     public required string VoucherType { get; set; }
     public Decimal? Amount { get; set; }
     public DateTime? SellDate { get; set; }
+    public DateTime? ActivationDate { get; set; }
     public required DateTime ExpirationDate { get; set; }
     public required string Resort { get; set; }
     public required Status Status { get; set; }
     public ICollection<Attraction>? Attractions { get; set; }
-
+    public Guest? Guest { get; set; }
 }
