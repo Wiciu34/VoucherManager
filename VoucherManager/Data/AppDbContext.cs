@@ -11,4 +11,5 @@ public class AppDbContext : DbContext
     }
     public DbSet<Voucher> Vouchers { get; set; }
     public DbSet<Attraction> Attractions { get; set; }
+    public DbSet<Guest> Guest { get; set; }
 }

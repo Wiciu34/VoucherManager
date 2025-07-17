@@ -14,23 +14,38 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.VoucherType)
         </dd>
-        <dt class = "col-sm-2">
-            Kwota:
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Amount)
-        </dd>
+        @if(Model.Amount != null)
+        {
+            <dt class="col-sm-2">
+                Kwota:
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Amount)
+            </dd>
+        }
         <dt class = "col-sm-2">
             Data Sprzedaży:
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.SellDate)
         </dd>
+        <dt class="col-sm-2">
+            Data aktywacji:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ActivationDate)
+        </dd>
         <dt class = "col-sm-2">
             Data ważności:
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ExpirationDate)
+        </dd>
+        <dt class="col-sm-2">
+            Data realizacji:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RealizationDate)
         </dd>
         <dt class = "col-sm-2">
             Ośrodek:
@@ -55,6 +70,12 @@
             <li>@item.Content</li>
         }
     </ul>
+}
+@if (Model.Guest != null)
+{
+    <h2>Gość:</h2>
+    <h4>Addres email: @Model.Guest.Email</h4>
+    <h4>Numer telefonu: @Model.Guest.PhoneNumber</h4>
 }
 <div>
     <a asp-action="Index">Wróć do listy</a>

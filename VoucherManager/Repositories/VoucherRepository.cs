@@ -9,9 +9,11 @@ namespace VoucherManager.Repositories;
 public class VoucherRepository : IVoucherRepository
 {
     private readonly AppDbContext _context;
-    public VoucherRepository(AppDbContext context)
+    private readonly IGuestRepository _guestRepository;
+    public VoucherRepository(AppDbContext context, IGuestRepository guestRepository)
     {
         _context = context;
+        _guestRepository = guestRepository;
     }
     public async Task<IEnumerable<Voucher>> GetAllVouchersAsync()
     {
@@ -27,6 +29,7 @@ public class VoucherRepository : IVoucherRepository
         
         var voucher = await _context.Vouchers
             .Include(a => a.Attractions)
+            .Include(g => g.Guest)
             .AsNoTracking()
             .FirstOrDefaultAsync(v => v.SerialNumber == serialNumber);
 
@@ -53,8 +56,29 @@ public class VoucherRepository : IVoucherRepository
         }
 
         voucher.Status = Status.Aktywny;
-        //voucher.ActivationDate = DateTime.UtcNow;
+        voucher.ActivationDate = DateTime.UtcNow;
         voucher.ExpirationDate = DateTime.UtcNow.AddMonths(6);
+
+        if(voucher.SellDate == null)
+        {
+            voucher.SellDate = DateTime.UtcNow;
+        }
+
+        var guest = await _guestRepository.GetGuestByEmailAsync(viewModel.Email, viewModel.PhoneNumber);
+
+        if (guest != null)
+        {
+            voucher.Guest = guest;
+        }
+        else
+        {
+            voucher.Guest = new Guest
+            {
+                Email = viewModel.Email,
+                PhoneNumber = viewModel.PhoneNumber
+            };
+        }
+
         _context.Vouchers.Update(voucher);
 
         await _context.SaveChangesAsync();
