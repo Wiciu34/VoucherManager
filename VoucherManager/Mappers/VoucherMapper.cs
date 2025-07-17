@@ -13,14 +13,16 @@ public static class VoucherMapper
             SerialNumber = voucher.SerialNumber,
             VoucherType = voucher.VoucherType,
             Amount = voucher.Amount,
-            SellDate = voucher.SellDate?.ToString("yyyy-MM-dd"),
-            ExpirationDate = voucher.ExpirationDate.ToString("yyyy-MM-dd"),
+            SellDate = voucher.SellDate?.ToString("dd-MM-yyyy"),
+            ExpirationDate = voucher.ExpirationDate.ToString("dd-MM-yyyy"),
+            ActivationDate = voucher.ActivationDate?.ToString("dd-MM-yyyy"),
             Resort = voucher.Resort,
             Status = voucher.Status.ToString(),
             Attractions = voucher.Attractions?.Select(a => new AttractionDTO
             {
                 Content = a.Content
-            }).ToList()
+            }).ToList(),
+            Guest = voucher.Guest?.toGuestDTO()
         };
     }
 }

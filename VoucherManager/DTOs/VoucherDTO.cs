@@ -9,8 +9,10 @@ public class VoucherDTO
     public Decimal? Amount { get; set; }
     public string? SellDate { get; set; }
     public required string ExpirationDate { get; set; }
+    public string? ActivationDate { get; set; }
     public required string Resort { get; set; }
     public required string Status { get; set; }
     public IEnumerable<AttractionDTO>? Attractions { get; set; }
+    public GuestDTO? Guest { get; set; }
 
 }
