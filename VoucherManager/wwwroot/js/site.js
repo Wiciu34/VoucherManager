@@ -17,11 +17,11 @@
                 "render": function (data, type, row) {
                     if (row.status === "Aktywny") {
                         return `<a href="/Details/${row.serialNumber}" class="btn btn-secondary"><i class="bi bi-info-square"></i></a>
-                        <button class="btn btn-success" data-serialNumber="${row.serialNumber}" data-bs-toggle="modal" data-bs-target="#"><i class="bi bi-info-square"></i></button>`
+                        <button class="btn btn-success" data-serialNumber="${data.serialNumber}" data-bs-toggle="modal" data-bs-target="#activationModal"><i class="bi bi-info-square"></i></button>`
                     }
                     else if (row.status === "Nieaktywny") {
                         return `<a href="/Details/${row.serialNumber}" class="btn btn-secondary"><i class="bi bi-info-square"></i></i></a>
-                        <button class="btn btn-success" data-serialNumber="${row.serialNumber}" data-bs-toggle="modal" data-bs-target="#activationModal"><i class="bi bi-pencil-square text-white"></i></button>`;
+                        <button class="btn btn-success voucher-activation-btn" data-serialNumber="${data.serialNumber}" data-bs-toggle="modal" data-bs-target="#activationModal"><i class="bi bi-pencil-square text-white"></i></button>`;
                     }
                     else {
                         return
@@ -47,7 +47,14 @@
 
     $(document).on('click', '.voucher-activation-btn', function () {
         clearModalFields();
-        let serialNumber = $(this).data('serialNumber');
+        let serialNumber = $(this).data('serialnumber');
+        console.log("Test:" + serialNumber);
+
+        getVoucher(serialNumber).done(function (respons) {
+            $(".modal-title").html(`Aktywuj voucher o nr: ${respons.data.serialNumber}`);
+        }).fail(function () {
+            alert("Wystąpił błąd podczas pobierania danych.")
+        });
 
     });
 
@@ -55,9 +62,9 @@
 
         let formData = {
             serialNumber: serialNumber,
-            invoiceNumber = $('#invoiceNumber').val(),
-            email = $('#email').val(),
-            phoneNumber = $('#phoneNumber').val()
+            invoiceNumber: $('#invoiceNumber').val(),
+            email: $('#email').val(),
+            phoneNumber: $('#phoneNumber').val()
         }
         
         $.ajax({
@@ -85,5 +92,15 @@
         $('#invoiceNumber').val('');
         $('#email').val('');
         $('#phoneNumber').val('');
+    }
+
+    function getVoucher(serialNumber) {
+        return $.ajax({
+            url: "/Voucher/GetVoucher",
+            type: "GET",
+            data: {
+                "serialNumber": serialNumber
+            }
+        });
     }
 });

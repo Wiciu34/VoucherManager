@@ -24,6 +24,12 @@ public class VoucherController : Controller
         var vouchersDto = vouchers.Select(v => v.ToVoucherDto()).ToList();
         return Json(new {data = vouchersDto});
     }
+    [HttpGet]
+    public async Task<JsonResult> GetVoucher(string serialNumber)
+    {
+        var voucher = await _voucherRepository.GetVoucherBySerialNumberAsync(serialNumber);
+        return Json(new {data = voucher.ToVoucherDto()});
+    }
 
     [HttpGet("Details/{serialNumber}")]
     public async Task<IActionResult> Details(string serialNumber)
