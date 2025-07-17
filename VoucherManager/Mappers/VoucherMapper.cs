@@ -16,6 +16,7 @@ public static class VoucherMapper
             SellDate = voucher.SellDate?.ToString("dd-MM-yyyy"),
             ExpirationDate = voucher.ExpirationDate.ToString("dd-MM-yyyy"),
             ActivationDate = voucher.ActivationDate?.ToString("dd-MM-yyyy"),
+            RealizationDate = voucher.RealizationDate?.ToString("dd-MM-yyyy"),
             Resort = voucher.Resort,
             Status = voucher.Status.ToString(),
             Attractions = voucher.Attractions?.Select(a => new AttractionDTO

@@ -10,6 +10,7 @@ public class VoucherDTO
     public string? SellDate { get; set; }
     public required string ExpirationDate { get; set; }
     public string? ActivationDate { get; set; }
+    public string? RealizationDate { get; set; }
     public required string Resort { get; set; }
     public required string Status { get; set; }
     public IEnumerable<AttractionDTO>? Attractions { get; set; }

@@ -13,6 +13,7 @@ public class Voucher
     public DateTime? SellDate { get; set; }
     public DateTime? ActivationDate { get; set; }
     public required DateTime ExpirationDate { get; set; }
+    public DateTime? RealizationDate { get; set; }
     public required string Resort { get; set; }
     public required Status Status { get; set; }
     public ICollection<Attraction>? Attractions { get; set; }
