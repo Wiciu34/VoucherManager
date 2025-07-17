@@ -15,4 +15,5 @@ public class ActivationVoucherViewModel
     [Phone(ErrorMessage = "Podany numer telefonu jest nieprawidłowy")]
     [Display(Name = "Numer telefonu")]
     public required string PhoneNumber { get; set; }
+    public string? InvoiceNumber { get; set; }
 }

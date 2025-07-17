@@ -39,5 +39,5 @@ public class VoucherActivationController : Controller
             ModelState.AddModelError(string.Empty, ex.Message);
             return View("Index", model);
         }
-    }
+    } 
 }

@@ -15,8 +15,19 @@
             {
                 "data": null,
                 "render": function (data, type, row) {
-                    return `<a href="/Details/${row.serialNumber}" class="btn btn-success">Szczegóły</a>`
-                    
+                    if (row.status === "Aktywny") {
+                        return `<a href="/Details/${row.serialNumber}" class="btn btn-secondary"><i class="bi bi-info-square"></i></a>
+                        <button class="btn btn-success" data-serialNumber="${row.serialNumber}" data-bs-toggle="modal" data-bs-target="#"><i class="bi bi-info-square"></i></button>`
+                    }
+                    else if (row.status === "Nieaktywny") {
+                        return `<a href="/Details/${row.serialNumber}" class="btn btn-secondary"><i class="bi bi-info-square"></i></i></a>
+                        <button class="btn btn-success" data-serialNumber="${row.serialNumber}" data-bs-toggle="modal" data-bs-target="#activationModal"><i class="bi bi-pencil-square text-white"></i></button>`;
+                    }
+                    else {
+                        return
+                        `<a href="/Details/${row.serialNumber}" class="btn btn-secondary"><i class="bi bi-info-square"></i></a>`;
+                 
+                    }
                             
                 },
             }
@@ -33,4 +44,46 @@
 
         },
     });
+
+    $(document).on('click', '.voucher-activation-btn', function () {
+        clearModalFields();
+        let serialNumber = $(this).data('serialNumber');
+
+    });
+
+    function submitActivationForm(serialNumber) {
+
+        let formData = {
+            serialNumber: serialNumber,
+            invoiceNumber = $('#invoiceNumber').val(),
+            email = $('#email').val(),
+            phoneNumber = $('#phoneNumber').val()
+        }
+        
+        $.ajax({
+            url: '/Voucher/ActivateVoucherByWorker',
+            type: 'POST',
+            data: {
+                "activationVoucher": formData
+            },
+            success: function (response) {
+                if (response.success) {
+                    $('#activationModal').modal('hide');
+                    voucherTable.ajax.reload();
+                    alert('Voucher został aktywowany.');
+                } else {
+                    alert('Wystąpił błąd podczas aktywacji vouchera.');
+                }
+            },
+            error: function () {
+                alert('Wystąpił błąd podczas aktywacji vouchera.');
+            }
+        });
+    }
+
+    function clearModalFields() {
+        $('#invoiceNumber').val('');
+        $('#email').val('');
+        $('#phoneNumber').val('');
+    }
 });
