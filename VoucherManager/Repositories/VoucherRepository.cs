@@ -35,20 +35,14 @@ public class VoucherRepository : IVoucherRepository
 
         if (voucher == null)
         {
-            throw new KeyNotFoundException($"Voucher with serial number '{serialNumber}' not found.");
+            throw new KeyNotFoundException($"Nie znaleziono vouchera o nr: '{serialNumber}");
         }
 
         return voucher;
     }
-    public async Task ActivateVoucherByBrokerAsync(ActivationVoucherViewModel viewModel)
+    public async Task UpdateVoucherAsync(ActivationVoucherViewModel viewModel)
     {
-        var voucher = _context.Vouchers
-            .FirstOrDefault(v => v.SerialNumber == viewModel.SerialNumber);
-
-        if (voucher == null)
-        {
-            throw new KeyNotFoundException($"Nie znaleziono vouchera o nr: '{viewModel.SerialNumber}");
-        }
+        var voucher = await GetVoucherBySerialNumberAsync(viewModel.SerialNumber);
 
         if (voucher.Status != Status.Nieaktywny)
         {

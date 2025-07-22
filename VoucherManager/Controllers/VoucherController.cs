@@ -60,7 +60,7 @@ public class VoucherController : Controller
         }
         try
         {
-            await _voucherRepository.ActivateVoucherByBrokerAsync(activationVoucher);
+            await _voucherRepository.UpdateVoucherAsync(activationVoucher);
             return Json(new { success = true, message = "Voucher został aktywowany pomyślnie." });
         }
         catch (KeyNotFoundException e)

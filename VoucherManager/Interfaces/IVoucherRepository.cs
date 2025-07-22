@@ -7,7 +7,7 @@ namespace VoucherManager.Interfaces
     {
         Task<IEnumerable<Voucher>> GetAllVouchersAsync();
         Task<Voucher> GetVoucherBySerialNumberAsync(string serialNumber);
-        Task ActivateVoucherByBrokerAsync(ActivationVoucherViewModel viewModel);
+        Task UpdateVoucherAsync(ActivationVoucherViewModel viewModel);
 
     }
 }

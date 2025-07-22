@@ -26,7 +26,7 @@ public class VoucherActivationController : Controller
 
         try
         {
-            await _voucherRepository.ActivateVoucherByBrokerAsync(model);
+            await _voucherRepository.UpdateVoucherAsync(model);
             return RedirectToAction("Index", "Voucher");
         }
         catch(KeyNotFoundException e)
