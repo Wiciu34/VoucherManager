@@ -6,14 +6,15 @@ public class ActivationVoucherViewModel
 {
     [Required(ErrorMessage = "Numer voucheru jest wymagany")]
     [Display(Name = "Numer voucheru")]
-    public required string SerialNumber { get; set; }
+    public string SerialNumber { get; set; } = null!;
     [Required(ErrorMessage = "Adres e-mail jest wymagany")]
     [EmailAddress(ErrorMessage = "Podany adres e-mail jest nieprawidłowy")]
     [Display(Name = "Adres e-mail")]
-    public required string Email { get; set; }
+    public string Email { get; set; } = null!;
     [Required(ErrorMessage = "Numer telefonu jest wymagany")]
-    [Phone(ErrorMessage = "Podany numer telefonu jest nieprawidłowy")]
+    [RegularExpression(@"^\d{9}$", ErrorMessage = "Numer telefonu musi zawierać dokładnie 9 cyfr.")]
     [Display(Name = "Numer telefonu")]
-    public required string PhoneNumber { get; set; }
-    public string? InvoiceNumber { get; set; }
+    public string PhoneNumber { get; set; } = null!;
+    [Required(ErrorMessage = "Numer faktury jest wymagany")]
+    public string InvoiceNumber { get; set; } = null!;
 }

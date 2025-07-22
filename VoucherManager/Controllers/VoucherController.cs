@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VoucherManager.Data;
 using VoucherManager.DTOs;
+using VoucherManager.Helpers;
 using VoucherManager.Interfaces;
 using VoucherManager.Mappers;
 using VoucherManager.Models;
@@ -60,10 +61,11 @@ public class VoucherController : Controller
     [HttpPost]
     public async Task<JsonResult> ActivateVoucherByWorker(ActivationVoucherViewModel activationVoucher)
     {
-        if (activationVoucher == null || string.IsNullOrEmpty(activationVoucher.SerialNumber))
+        if(!ModelState.IsValid)
         {
-            return Json(new { success = false, message = "Brak danych lub numeru seryjnego" });
+            return ValidationHelper.GenerateErrorResponse(ModelState);
         }
+
         try
         {
             var voucher = await _voucherRepository.GetVoucherBySerialNumberAsync(activationVoucher.SerialNumber);

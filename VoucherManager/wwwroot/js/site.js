@@ -24,8 +24,8 @@
                         <button class="btn btn-success voucher-activation-btn" data-serialNumber="${data.serialNumber}" data-bs-toggle="modal" data-bs-target="#activationModal"><i class="bi bi-pencil-square text-white"></i></button>`;
                     }
                     else {
-                        return
-                        `<a href="/Details/${row.serialNumber}" class="btn btn-secondary"><i class="bi bi-info-square"></i></a>`;
+                        return `<a href="/Details/${row.serialNumber}" class="btn btn-secondary"><i class="bi bi-info-square"></i></a>`;
+                        
                  
                     }
                             
@@ -47,6 +47,7 @@
 
     $(document).on('click', '.voucher-activation-btn', function () {
         clearModalFields();
+        clearErrorMessages();
         let serialNumber = $(this).data('serialnumber');
         console.log("Test:" + serialNumber);
 
@@ -64,11 +65,6 @@
 
         $('#activationForm').off('submit').on('submit', function (e) {
             e.preventDefault();
-            if ($('#invoiceNumber').val() === '' || $('#email').val() === '' || $('#phoneNumber').val() === '') {
-                console.log("Błąd 1")
-                alert('Wszystkie pola są wymagane.');
-                return;
-            }
 
             let formData = {
                 serialNumber: serialNumber,
@@ -76,7 +72,7 @@
                 email: $('#email').val(),
                 phoneNumber: $('#phoneNumber').val()
             }
-            console.log("Błąd 2")
+            
 
             $.ajax({
                 url: '/Voucher/ActivateVoucherByWorker',
@@ -90,8 +86,8 @@
                         voucherTable.ajax.reload();
                         alert('Voucher został aktywowany.');
                     } else {
-                        console.log("Pierwszy else")
-                        alert(response.message);
+                        console.log(response.errors)
+                        displayValidationErrors(response.errors)
                     }
                 },
                 error: function () {
@@ -103,10 +99,28 @@
         });
     }
 
+    function displayValidationErrors(errors) {
+        clearErrorMessages();
+
+        for (let key in errors) {
+            if (errors.hasOwnProperty(key)) {
+                let errorKey = key.replace('activationVoucher.', '');
+                let errorId = errorKey + "Error";
+                $("#" + errorId).html(errors[key]);
+            }
+        }
+    }
+
     function clearModalFields() {
         $('#invoiceNumber').val('');
         $('#email').val('');
         $('#phoneNumber').val('');
+    }
+
+    function clearErrorMessages() {
+        $('#InvoiceNumberError').html('');
+        $('#EmailError').html('');
+        $('#PhoneNumberError').html('');
     }
 
     function getVoucher(serialNumber) {
