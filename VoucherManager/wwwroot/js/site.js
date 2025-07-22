@@ -17,7 +17,7 @@
                 "render": function (data, type, row) {
                     if (row.status === "Aktywny") {
                         return `<a href="/Details/${row.serialNumber}" class="btn btn-secondary"><i class="bi bi-info-square"></i></a>
-                        <button class="btn btn-success" data-serialNumber="${data.serialNumber}" data-bs-toggle="modal" data-bs-target="#activationModal"><i class="bi bi-info-square"></i></button>`
+                        <button class="btn btn-warning voucher-realization-btn" data-serialNumber="${data.serialNumber}" data-bs-toggle="modal" data-bs-target="#realizationModal"><i class="bi bi-bookmark-x"></i></button>`
                     }
                     else if (row.status === "Nieaktywny") {
                         return `<a href="/Details/${row.serialNumber}" class="btn btn-secondary"><i class="bi bi-info-square"></i></i></a>
@@ -49,10 +49,9 @@
         clearModalFields();
         clearErrorMessages();
         let serialNumber = $(this).data('serialnumber');
-        console.log("Test:" + serialNumber);
 
-        getVoucher(serialNumber).done(function (respons) {
-            $(".modal-title").html(`Aktywuj voucher o nr: ${respons.data.serialNumber}`);
+        getVoucher(serialNumber).done(function (response) {
+            $(".modal-title").html(`Aktywuj voucher o nr: ${response.data.serialNumber}`);
         }).fail(function () {
             alert("Wystąpił błąd podczas pobierania danych.")
         });
@@ -60,6 +59,51 @@
         submitActivationForm(serialNumber);
 
     });
+
+    $(document).on('click', '.voucher-realization-btn', function () {
+        $('#realizationDate').val('');
+        let serialNumber = $(this).data('serialnumber');
+
+        getVoucher(serialNumber).done(function (response) {
+            $(".modal-title").html(`Aktywuj voucher o nr: ${response.data.serialNumber}`);
+        }).fail(function () {
+            alert("Wystąpił błąd podczas pobierania danych.")
+        });
+
+        submitRealizationForm(serialNumber);
+    });
+
+    function submitRealizationForm(serialNumber) {
+        $('#realizationForm').off('submit').on('submit', function (e) {
+
+            e.preventDefault();
+
+            let date = $('#realizationDate').val();
+           
+            $.ajax({
+                url: '/Voucher/EndStayByWorker',
+                type: 'POST',
+                data: {
+                    "date": date,
+                    "serialNumber": serialNumber
+                },
+                success: function (response) {
+                    if (response.success) {
+                        $('#realizationModal').modal('hide');
+                        voucherTable.ajax.reload();
+                        alert('Voucher został zrealizowany.');
+                    } else {
+                        console.log("ELSE")
+                        alert(`Wystąpił błąd podczas realizacji vouchera. Błąd: ${response.error}`);
+                    }
+                },
+                error: function () {
+                    alert('Wystąpił błąd podczas realizacji vouchera.');
+                }
+            });
+        });
+    }
+
 
     function submitActivationForm(serialNumber) {
 

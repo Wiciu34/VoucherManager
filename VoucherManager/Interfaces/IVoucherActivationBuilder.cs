@@ -8,7 +8,7 @@ public interface IVoucherActivationBuilder
     IVoucherActivationBuilder SetSellDate(DateTime? date);
     IVoucherActivationBuilder SetActivationDate();
     IVoucherActivationBuilder SetExpirationDate();
-    IVoucherActivationBuilder SetRealizationDate();
+    IVoucherActivationBuilder SetRealizationDate(DateTime date);
     IVoucherActivationBuilder SetStatus(Status status);
     IVoucherActivationBuilder SetGuest(Guest guest);
     IVoucherActivationBuilder SetInvoiceNumber(string invoiceNumber);

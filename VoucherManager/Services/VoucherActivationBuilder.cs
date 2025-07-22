@@ -36,9 +36,10 @@ public class VoucherActivationBuilder : IVoucherActivationBuilder
         return this;
     }
 
-    public IVoucherActivationBuilder SetRealizationDate()
+    public IVoucherActivationBuilder SetRealizationDate(DateTime date)
     {
-        throw new NotImplementedException();
+        _voucher.RealizationDate = date;
+        return this;
     }
 
     public IVoucherActivationBuilder SetSellDate(DateTime? date)

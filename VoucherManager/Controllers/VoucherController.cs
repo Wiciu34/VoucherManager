@@ -102,4 +102,33 @@ public class VoucherController : Controller
             return Json(new { success = false, message = ex.Message });
         }
     }
+    public async Task<JsonResult> EndStayByWorker(DateTime date, string serialNumber)
+    {
+        try
+        {
+            var voucher = await _voucherRepository.GetVoucherBySerialNumberAsync(serialNumber);
+
+            if (voucher.Status != Status.Aktywny)
+            {
+                throw new InvalidOperationException($"Voucher o statusie {voucher.Status.ToString()} nie może zostać zakończony");
+            }
+
+            _voucherActivationBuilder.SetVoucher(voucher);
+
+            voucher = _voucherActivationBuilder.SetRealizationDate(date)
+                .SetStatus(Status.Zrealizowany)
+                .Build();
+
+            await _voucherRepository.UpdateVoucherAsync(voucher);
+            return Json(new { success = true, message = "Voucher został zrealizowany pomyślnie." });
+        }
+        catch(KeyNotFoundException e)
+        {
+            return Json(new { success = false, message = e.Message });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return Json(new { success = false, message = ex.Message });
+        }
+    }
 }
