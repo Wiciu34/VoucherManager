@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using VoucherManager.Data;
 using VoucherManager.DTOs;
 using VoucherManager.Interfaces;
 using VoucherManager.Mappers;
+using VoucherManager.Models;
 using VoucherManager.ViewModels;
 
 namespace VoucherManager.Controllers;
@@ -9,9 +11,13 @@ namespace VoucherManager.Controllers;
 public class VoucherController : Controller
 {
     private readonly IVoucherRepository _voucherRepository;
-    public VoucherController(IVoucherRepository voucherRepository)
+    private readonly IGuestRepository _guestRepository;
+    private readonly IVoucherActivationBuilder _voucherActivationBuilder;
+    public VoucherController(IVoucherRepository voucherRepository, IGuestRepository guestRepository, IVoucherActivationBuilder voucherActivationBuilder)
     {
         _voucherRepository = voucherRepository;
+        _guestRepository = guestRepository;
+        _voucherActivationBuilder = voucherActivationBuilder;
     }
     public IActionResult Index()
     {
@@ -60,7 +66,29 @@ public class VoucherController : Controller
         }
         try
         {
-            await _voucherRepository.UpdateVoucherAsync(activationVoucher);
+            var voucher = await _voucherRepository.GetVoucherBySerialNumberAsync(activationVoucher.SerialNumber);
+
+            if (voucher.Status != Status.Nieaktywny)
+            {
+                throw new InvalidOperationException($"Voucher o statusie {voucher.Status.ToString()} nie może zostać aktywowany");
+            }
+
+            var guest = await _guestRepository.GetGuestByEmailAsync(activationVoucher.Email, activationVoucher.PhoneNumber);
+            if (guest == null) guest = new Guest { Email = activationVoucher.Email, PhoneNumber = activationVoucher.PhoneNumber };
+
+            _voucherActivationBuilder.SetVoucher(voucher);
+
+            voucher = _voucherActivationBuilder
+                .SetActivationDate()
+                .SetExpirationDate()
+                .SetStatus(Status.Aktywny)
+                .SetSellDate(null)
+                .SetGuest(guest)
+                .SetInvoiceNumber(activationVoucher.InvoiceNumber)
+                .Build();
+
+            await _voucherRepository.UpdateVoucherAsync(voucher);
+
             return Json(new { success = true, message = "Voucher został aktywowany pomyślnie." });
         }
         catch (KeyNotFoundException e)

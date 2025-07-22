@@ -56,35 +56,50 @@
             alert("Wystąpił błąd podczas pobierania danych.")
         });
 
+        submitActivationForm(serialNumber);
+
     });
 
     function submitActivationForm(serialNumber) {
 
-        let formData = {
-            serialNumber: serialNumber,
-            invoiceNumber: $('#invoiceNumber').val(),
-            email: $('#email').val(),
-            phoneNumber: $('#phoneNumber').val()
-        }
-        
-        $.ajax({
-            url: '/Voucher/ActivateVoucherByWorker',
-            type: 'POST',
-            data: {
-                "activationVoucher": formData
-            },
-            success: function (response) {
-                if (response.success) {
-                    $('#activationModal').modal('hide');
-                    voucherTable.ajax.reload();
-                    alert('Voucher został aktywowany.');
-                } else {
+        $('#activationForm').off('submit').on('submit', function (e) {
+            e.preventDefault();
+            if ($('#invoiceNumber').val() === '' || $('#email').val() === '' || $('#phoneNumber').val() === '') {
+                console.log("Błąd 1")
+                alert('Wszystkie pola są wymagane.');
+                return;
+            }
+
+            let formData = {
+                serialNumber: serialNumber,
+                invoiceNumber: $('#invoiceNumber').val(),
+                email: $('#email').val(),
+                phoneNumber: $('#phoneNumber').val()
+            }
+            console.log("Błąd 2")
+
+            $.ajax({
+                url: '/Voucher/ActivateVoucherByWorker',
+                type: 'POST',
+                data: {
+                    "activationVoucher": formData
+                },
+                success: function (response) {
+                    if (response.success) {
+                        $('#activationModal').modal('hide');
+                        voucherTable.ajax.reload();
+                        alert('Voucher został aktywowany.');
+                    } else {
+                        console.log("Pierwszy else")
+                        alert(response.message);
+                    }
+                },
+                error: function () {
+                    console.log("ERROR")
                     alert('Wystąpił błąd podczas aktywacji vouchera.');
                 }
-            },
-            error: function () {
-                alert('Wystąpił błąd podczas aktywacji vouchera.');
-            }
+            });
+            
         });
     }
 

@@ -40,43 +40,9 @@ public class VoucherRepository : IVoucherRepository
 
         return voucher;
     }
-    public async Task UpdateVoucherAsync(ActivationVoucherViewModel viewModel)
+    public async Task UpdateVoucherAsync(Voucher voucher)
     {
-        var voucher = await GetVoucherBySerialNumberAsync(viewModel.SerialNumber);
-
-        if (voucher.Status != Status.Nieaktywny)
-        {
-            throw new InvalidOperationException($"Voucher o statusie {voucher.Status.ToString()} nie może zostać aktywowany");
-        }
-
-        voucher.Status = Status.Aktywny;
-        voucher.ActivationDate = DateTime.UtcNow;
-        voucher.ExpirationDate = DateTime.UtcNow.AddMonths(6);
-
-        if(voucher.SellDate == null)
-        {
-            voucher.SellDate = DateTime.UtcNow;
-        }
-
-        var guest = await _guestRepository.GetGuestByEmailAsync(viewModel.Email, viewModel.PhoneNumber);
-
-        if (guest != null)
-        {
-            voucher.Guest = guest;
-        }
-        else
-        {
-            voucher.Guest = new Guest
-            {
-                Email = viewModel.Email,
-                PhoneNumber = viewModel.PhoneNumber
-            };
-        }
-
         _context.Vouchers.Update(voucher);
-
         await _context.SaveChangesAsync();
     }
-
-    
 }

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using VoucherManager.Data;
 using VoucherManager.Interfaces;
+using VoucherManager.Models;
 using VoucherManager.ViewModels;
 
 namespace VoucherManager.Controllers;
@@ -7,9 +9,13 @@ namespace VoucherManager.Controllers;
 public class VoucherActivationController : Controller
 {
     private readonly IVoucherRepository _voucherRepository;
-    public VoucherActivationController(IVoucherRepository voucherRepository)
+    private readonly IGuestRepository _guestRepository;
+    private readonly IVoucherActivationBuilder _voucherActivationBuilder;
+    public VoucherActivationController(IVoucherRepository voucherRepository, IGuestRepository guestRepository, IVoucherActivationBuilder voucherActivationBuilder)
     {
         _voucherRepository = voucherRepository;
+        _guestRepository = guestRepository;
+        _voucherActivationBuilder = voucherActivationBuilder;
     }
     public IActionResult Index()
     {
@@ -23,10 +29,30 @@ public class VoucherActivationController : Controller
         {
             return View("Index", model);
         }
-
         try
         {
-            await _voucherRepository.UpdateVoucherAsync(model);
+            var voucher = await _voucherRepository.GetVoucherBySerialNumberAsync(model.SerialNumber);
+
+            if (voucher.Status != Status.Nieaktywny)
+            {
+                ModelState.AddModelError("SerialNumber", $"Voucher o statusie {voucher.Status.ToString()} nie może zostać aktywowany");
+                return View("Index", model);
+            }
+
+            var guest = await _guestRepository.GetGuestByEmailAsync(model.Email, model.PhoneNumber);
+            
+            if (guest == null) guest = new Guest { Email = model.Email, PhoneNumber = model.PhoneNumber };
+
+            _voucherActivationBuilder.SetVoucher(voucher);
+
+            voucher = _voucherActivationBuilder
+                .SetActivationDate()
+                .SetExpirationDate()
+                .SetStatus(Status.Aktywny)
+                .SetGuest(guest)
+                .Build();
+
+            await _voucherRepository.UpdateVoucherAsync(voucher);
             return RedirectToAction("Index", "Voucher");
         }
         catch(KeyNotFoundException e)
