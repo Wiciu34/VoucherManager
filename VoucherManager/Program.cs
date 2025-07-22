@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using VoucherManager.Data;
 using VoucherManager.Interfaces;
 using VoucherManager.Repositories;
+using VoucherManager.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IVoucherRepository, VoucherRepository>();
 builder.Services.AddScoped<IGuestRepository, GuestRepository>();
+builder.Services.AddScoped<IVoucherActivationBuilder, VoucherActivationBuilder>();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
