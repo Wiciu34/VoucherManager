@@ -16,6 +16,7 @@ public class Voucher
     public DateTime? RealizationDate { get; set; }
     public required string Resort { get; set; }
     public required Status Status { get; set; }
+    public string? InovoiceNumber { get; set; }
     public ICollection<Attraction>? Attractions { get; set; }
     public Guest? Guest { get; set; }
 }

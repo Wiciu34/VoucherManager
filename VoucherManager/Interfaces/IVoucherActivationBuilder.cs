@@ -10,6 +10,8 @@ public interface IVoucherActivationBuilder
     IVoucherActivationBuilder SetExpirationDate();
     IVoucherActivationBuilder SetRealizationDate();
     IVoucherActivationBuilder SetStatus(Status status);
+    IVoucherActivationBuilder SetGuest(Guest guest);
+    IVoucherActivationBuilder SetInvoiceNumber(string invoiceNumber);
     void SetVoucher(Voucher voucher);
     Voucher Build();
 }

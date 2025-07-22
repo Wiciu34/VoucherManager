@@ -20,7 +20,19 @@ public class VoucherActivationBuilder : IVoucherActivationBuilder
 
     public IVoucherActivationBuilder SetExpirationDate()
     {
-        _voucher.ActivationDate = DateTime.UtcNow.AddMonths(6);
+        _voucher.ExpirationDate = DateTime.UtcNow.AddMonths(6);
+        return this;
+    }
+
+    public IVoucherActivationBuilder SetGuest(Guest guest)
+    {
+        _voucher.Guest = guest;
+        return this;
+    }
+
+    public IVoucherActivationBuilder SetInvoiceNumber(string invoiceNumber)
+    {
+        _voucher.InovoiceNumber = invoiceNumber ?? throw new ArgumentNullException(nameof(invoiceNumber), "Numer faktury nie może być pusty.");
         return this;
     }
 
