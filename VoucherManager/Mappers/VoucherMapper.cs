@@ -11,7 +11,7 @@ public static class VoucherMapper
         return new VoucherDTO
         {
             SerialNumber = voucher.SerialNumber,
-            VoucherType = voucher.VoucherType,
+            VoucherType = voucher.VoucherType.ToString(),
             Amount = voucher.Amount,
             SellDate = voucher.SellDate?.ToString("dd-MM-yyyy"),
             ExpirationDate = voucher.ExpirationDate.ToString("dd-MM-yyyy"),

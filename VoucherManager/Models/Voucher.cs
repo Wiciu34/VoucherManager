@@ -8,7 +8,7 @@ public class Voucher
 {
     [Key]
     public required string SerialNumber { get; set; }
-    public required string VoucherType { get; set; }
+    public required VoucherType VoucherType { get; set; }
     public Decimal? Amount { get; set; }
     public DateTime? SellDate { get; set; }
     public DateTime? ActivationDate { get; set; }
