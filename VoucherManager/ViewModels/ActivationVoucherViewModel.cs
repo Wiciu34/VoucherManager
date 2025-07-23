@@ -15,6 +15,5 @@ public class ActivationVoucherViewModel
     [RegularExpression(@"^\d{9}$", ErrorMessage = "Numer telefonu musi zawierać dokładnie 9 cyfr.")]
     [Display(Name = "Numer telefonu")]
     public string PhoneNumber { get; set; } = null!;
-    [Required(ErrorMessage = "Numer faktury jest wymagany")]
-    public string InvoiceNumber { get; set; } = null!;
+    public string? InvoiceNumber { get; set; } = null!;
 }

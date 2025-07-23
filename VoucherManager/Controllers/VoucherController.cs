@@ -75,6 +75,11 @@ public class VoucherController : Controller
                 throw new InvalidOperationException($"Voucher o statusie {voucher.Status.ToString()} nie może zostać aktywowany");
             }
 
+            if (voucher.ExpirationDate < DateTime.UtcNow.AddDays(-7))
+            {
+                throw new InvalidOperationException("Czas na aktywacje vouchera minął ponad 7 dni temu");
+            }
+
             var guest = await _guestRepository.GetGuestByEmailAsync(activationVoucher.Email, activationVoucher.PhoneNumber);
             if (guest == null) guest = new Guest { Email = activationVoucher.Email, PhoneNumber = activationVoucher.PhoneNumber };
 

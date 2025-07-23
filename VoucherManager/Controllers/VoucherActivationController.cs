@@ -39,6 +39,11 @@ public class VoucherActivationController : Controller
                 return View("Index", model);
             }
 
+            if (voucher.ExpirationDate < DateTime.UtcNow.AddDays(-7))
+            {
+                throw new InvalidOperationException("Czas na aktywacje vouchera minął ponad 7 dni temu");
+            }
+
             var guest = await _guestRepository.GetGuestByEmailAsync(model.Email, model.PhoneNumber);
             
             if (guest == null) guest = new Guest { Email = model.Email, PhoneNumber = model.PhoneNumber };

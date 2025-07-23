@@ -53,7 +53,7 @@
         getVoucher(serialNumber).done(function (response) {
             $(".modal-title").html(`Aktywuj voucher o nr: ${response.data.serialNumber}`);
         }).fail(function () {
-            alert("Wystąpił błąd podczas pobierania danych.")
+            toast.show("Wystąpił problem podczas przesyłania danych", "danger");
         });
 
         submitActivationForm(serialNumber);
@@ -67,7 +67,7 @@
         getVoucher(serialNumber).done(function (response) {
             $(".modal-title").html(`Aktywuj voucher o nr: ${response.data.serialNumber}`);
         }).fail(function () {
-            alert("Wystąpił błąd podczas pobierania danych.")
+            toast.show("Wystąpił problem podczas przesyłania danych", "danger");
         });
 
         submitRealizationForm(serialNumber);
@@ -91,14 +91,13 @@
                     if (response.success) {
                         $('#realizationModal').modal('hide');
                         voucherTable.ajax.reload();
-                        alert('Voucher został zrealizowany.');
+                        toast.show('Voucher został zrealizowany.');
                     } else {
-                        console.log("ELSE")
-                        alert(`Wystąpił błąd podczas realizacji vouchera. Błąd: ${response.error}`);
+                        toast.show(response.message, 'danger');
                     }
                 },
                 error: function () {
-                    alert('Wystąpił błąd podczas realizacji vouchera.');
+                    toast.show('Wystąpił błąd podczas realizacji vouchera.', 'danger');
                 }
             });
         });
@@ -128,14 +127,13 @@
                     if (response.success) {
                         $('#activationModal').modal('hide');
                         voucherTable.ajax.reload();
-                        alert('Voucher został aktywowany.');
+                        toast.show('Voucher został aktywowany.')
                     } else {
-                        console.log(response.errors)
                         displayValidationErrors(response.errors)
+                        toast.show(response.message, 'danger');
                     }
                 },
                 error: function () {
-                    console.log("ERROR")
                     alert('Wystąpił błąd podczas aktywacji vouchera.');
                 }
             });
