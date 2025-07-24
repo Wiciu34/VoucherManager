@@ -62,4 +62,17 @@ public class VoucherRepository : IVoucherRepository
         _context.Vouchers.Update(voucher);
         await _context.SaveChangesAsync();
     }
+
+    public async Task DeleteVoucherAsync(string serialNumber)
+    {
+        var voucher = await GetVoucherBySerialNumberAsync(serialNumber);
+
+        if (voucher == null)
+        {
+            throw new KeyNotFoundException($"Nie znaleziono vouchera o nr: '{serialNumber}");
+        }
+
+        _context.Vouchers.Remove(voucher);
+        await _context.SaveChangesAsync();
+    }
 }

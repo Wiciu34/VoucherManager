@@ -10,6 +10,7 @@ namespace VoucherManager.Interfaces
         Task UpdateVoucherAsync(Voucher voucher);
         Task AddVoucherAsync(Voucher voucher);
         Task<bool> CheckIfSerialNumberIsInUse(string serialNumber);
+        Task DeleteVoucherAsync(string serialNumber);
 
 
     }
