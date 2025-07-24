@@ -1,5 +1,6 @@
 ﻿using VoucherManager.DTOs;
 using VoucherManager.Models;
+using VoucherManager.ViewModels;
 
 namespace VoucherManager.Mappers;
 
@@ -24,6 +25,42 @@ public static class VoucherMapper
                 Content = a.Content
             }).ToList(),
             Guest = voucher.Guest?.toGuestDTO()
+        };
+    }
+
+    public static CreateEditVoucherViewModel ToCreateEditVoucherViewModel(this Voucher voucher)
+    {
+        if (voucher == null) throw new ArgumentNullException(nameof(voucher));
+        return new CreateEditVoucherViewModel
+        {
+            SerialNumber = voucher.SerialNumber,
+            VoucherType = voucher.VoucherType,
+            Amount = voucher.Amount,
+            SellDate = voucher.SellDate,
+            ActivationDate = voucher.ActivationDate,
+            ExpirationDate = voucher.ExpirationDate,
+            RealizationDate = voucher.RealizationDate,
+            Resort = voucher.Resort,
+            Status = voucher.Status,
+            InovoiceNumber = voucher.InovoiceNumber
+        };
+    }
+
+    public static Voucher ToVoucher(this CreateEditVoucherViewModel model)
+    {
+        if (model == null) throw new ArgumentNullException(nameof(model));
+        return new Voucher
+        {
+            SerialNumber = model.SerialNumber,
+            VoucherType = model.VoucherType,
+            Amount = model.Amount,
+            SellDate = model.SellDate,
+            ActivationDate = model.ActivationDate,
+            ExpirationDate = model.ExpirationDate,
+            RealizationDate = model.RealizationDate,
+            Resort = model.Resort,
+            Status = model.Status,
+            InovoiceNumber = model.InovoiceNumber
         };
     }
 }
