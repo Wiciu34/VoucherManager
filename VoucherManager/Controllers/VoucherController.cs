@@ -207,8 +207,28 @@ public class VoucherController : Controller
         
         var voucher = model.ToVoucher();
 
+        if (voucher.Status != Status.Aktywny && voucher.Status != Status.Zrealizowany) voucher.GuestId = null;
+
         await _voucherRepository.UpdateVoucherAsync(voucher);
 
         return RedirectToAction("Details", new { serialNumber = voucher.SerialNumber});
+    }
+
+    [HttpPost]
+    public async Task<JsonResult> Delete(string serialNumber)
+    {
+        if (string.IsNullOrEmpty(serialNumber))
+        {
+            return Json(new { succes = false, message =  "Numer seryjny jest wymagany" });
+        }
+        try
+        {
+            await _voucherRepository.DeleteVoucherAsync(serialNumber);
+            return Json(new { success = true, message = "Voucher został usunięty pomyślnie." });
+        }
+        catch (KeyNotFoundException e)
+        {
+            return Json(new { success = false, message = e.Message });
+        }
     }
 }

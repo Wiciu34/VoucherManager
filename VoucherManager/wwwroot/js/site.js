@@ -141,6 +141,47 @@
         });
     }
 
+    $(document).on('click', '.deleteVoucherBtn', function () {
+        let serialNumber = $(this).data('serialnumber');
+        
+        getVoucher(serialNumber).done(function (response) {
+            $('#voucher-data').html(response.data.serialNumber)
+        }).fail(function () {
+            alert("Wystąpił problem podczas przesyłania danych");
+        })
+
+        $('#submit-voucher-delete').on('click', function () {
+            $.ajax({
+                url: '/Voucher/Delete',
+                type: 'POST',
+                data: {
+                    "serialNumber": serialNumber
+                },
+                success: function (response) {
+                    if (response.success) {
+                        $('#deleteModal').modal('hide');
+                        localStorage.setItem('voucherDeleted', true);
+                        window.location.href = '/Voucher/Index';
+                    }
+                    else {
+                        toast.show(response.message, 'danger');
+                    }
+                },
+                fail: function () {
+                    alert('Wystąpił błąd podczas usuwania vouchera.');
+                }
+            })
+        });
+    });
+
+    window.onload = function () {
+        if (localStorage.getItem('voucherDeleted')) {
+            toast.show('Voucher został pomyślnie usunięty.');
+            localStorage.removeItem('voucherDeleted');
+        }
+
+    }
+
     function displayValidationErrors(errors) {
         clearErrorMessages();
 

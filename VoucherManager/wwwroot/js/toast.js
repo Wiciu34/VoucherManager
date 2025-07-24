@@ -11,6 +11,7 @@
 
 
     show(message, type = 'success', duration = 3000) {
+        console.log('Wywołanie toast show', message)
         const toast = document.createElement('div');
         toast.classList.add('toast', 'align-items-center', 'border-0', `bg-${type}`, 'text-white');
         toast.setAttribute('role', 'alert');
