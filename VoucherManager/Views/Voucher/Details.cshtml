@@ -4,8 +4,9 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Vouchera: @Model.SerialNumber</h1>
+<h1>Aktualizacja Vouchera: @Model.SerialNumber</h1>
 
+<a class="btn btn-warning" asp-action="Edit" asp-route-serialNumber="@Model.SerialNumber">Edytuj</a>
 <div>
     <dl class="row">
         <dt class = "col-sm-2">

@@ -9,6 +9,9 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<p>
+    <button onclick="exportTableToExcel()" class="btn btn-success">Pobierz do excel</button>
+</p>
 <table id="VoucherTable" class="table">
     <thead>
         <tr>
@@ -94,3 +97,10 @@
         </div>
     </div>
 </div>
+
+<script>
+    function exportTableToExcel() {
+        let wb = XLSX.utils.table_to_book(document.getElementById('VoucherTable'), { sheet: "Vouchers" });
+        XLSX.writeFile(wb, 'Vouchers.xlsx');
+    }
+</script>

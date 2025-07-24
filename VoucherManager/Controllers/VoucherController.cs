@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using VoucherManager.Data;
-using VoucherManager.DTOs;
 using VoucherManager.Helpers;
 using VoucherManager.Interfaces;
 using VoucherManager.Mappers;
@@ -135,5 +135,80 @@ public class VoucherController : Controller
         {
             return Json(new { success = false, message = ex.Message });
         }
+    }
+
+    [HttpGet]
+    public IActionResult Create()
+    {
+        return View(new CreateEditVoucherViewModel
+        {
+            ExpirationDate = DateTime.UtcNow
+        });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(CreateEditVoucherViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        if (await _voucherRepository.CheckIfSerialNumberIsInUse(model.SerialNumber))
+        {
+            ModelState.AddModelError("SerialNumber", "Numer seryjny jest już w użyciu");
+            return View(model);
+        }
+
+        if (model.VoucherType == VoucherType.Pobytowy && (!model.Amount.HasValue || model.Amount <= 0))
+        {
+            ModelState.AddModelError("Amount", "Kwota musi być większa od zera dla vouchera pobytowego");
+            return View(model);
+        }
+
+        var voucher = model.ToVoucher();
+        await _voucherRepository.AddVoucherAsync(voucher);
+        return RedirectToAction("Index");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Edit(string serialNumber)
+    {
+        if (string.IsNullOrEmpty(serialNumber))
+        {
+            return BadRequest("Numer seryjny jest wymagany");
+        }
+
+        var voucher = await _voucherRepository.GetVoucherBySerialNumberAsync(serialNumber);
+
+        if (voucher == null)
+        {
+            return NotFound("Nie znaleziono vouchera o podanym numerze");
+        }
+
+        var viewModel = voucher.ToCreateEditVoucherViewModel();
+       
+        return View(viewModel);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(CreateEditVoucherViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        if (model.VoucherType == VoucherType.Pobytowy && (!model.Amount.HasValue || model.Amount <= 0))
+        {
+            ModelState.AddModelError("Amount", "Kwota musi być większa od zera dla vouchera pobytowego");
+            return View(model);
+        }
+        
+        var voucher = model.ToVoucher();
+
+        await _voucherRepository.UpdateVoucherAsync(voucher);
+
+        return RedirectToAction("Details", new { serialNumber = voucher.SerialNumber});
     }
 }
