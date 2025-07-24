@@ -18,5 +18,6 @@ public class Voucher
     public required Status Status { get; set; }
     public string? InovoiceNumber { get; set; }
     public ICollection<Attraction>? Attractions { get; set; }
+    public int? GuestId { get; set; }
     public Guest? Guest { get; set; }
 }
