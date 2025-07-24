@@ -8,6 +8,9 @@ namespace VoucherManager.Interfaces
         Task<IEnumerable<Voucher>> GetAllVouchersAsync();
         Task<Voucher> GetVoucherBySerialNumberAsync(string serialNumber);
         Task UpdateVoucherAsync(Voucher voucher);
+        Task AddVoucherAsync(Voucher voucher);
+        Task<bool> CheckIfSerialNumberIsInUse(string serialNumber);
+
 
     }
 }

@@ -15,6 +15,22 @@ public class VoucherRepository : IVoucherRepository
         _context = context;
         _guestRepository = guestRepository;
     }
+
+    public async Task AddVoucherAsync(Voucher voucher)
+    {
+        _context.Vouchers.Add(voucher);
+        await _context.SaveChangesAsync();
+    }
+
+    public Task<bool> CheckIfSerialNumberIsInUse(string serialNumber)
+    {
+        if(_context.Vouchers.Any(v => v.SerialNumber == serialNumber))
+        {
+            return Task.FromResult(true);
+        }
+        return Task.FromResult(false);
+    }
+
     public async Task<IEnumerable<Voucher>> GetAllVouchersAsync()
     {
         var vouchers = await _context.Vouchers.ToListAsync();
@@ -42,6 +58,7 @@ public class VoucherRepository : IVoucherRepository
     }
     public async Task UpdateVoucherAsync(Voucher voucher)
     {
+
         _context.Vouchers.Update(voucher);
         await _context.SaveChangesAsync();
     }
