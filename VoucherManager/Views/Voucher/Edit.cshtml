@@ -13,6 +13,7 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="SerialNumber" />
+            <input type="hidden" asp-for="GuestId"/>
             <div class="form-group">
                 <label asp-for="VoucherType" class="control-label"></label>
                 <select asp-for="VoucherType" asp-items="@Model.VoucherTypeList" value="" class="form-control"></select>

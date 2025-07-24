@@ -42,7 +42,8 @@ public static class VoucherMapper
             RealizationDate = voucher.RealizationDate,
             Resort = voucher.Resort,
             Status = voucher.Status,
-            InovoiceNumber = voucher.InovoiceNumber
+            InovoiceNumber = voucher.InovoiceNumber,
+            GuestId = voucher.GuestId,
         };
     }
 
@@ -60,7 +61,8 @@ public static class VoucherMapper
             RealizationDate = model.RealizationDate,
             Resort = model.Resort,
             Status = model.Status,
-            InovoiceNumber = model.InovoiceNumber
+            InovoiceNumber = model.InovoiceNumber,
+            GuestId = model.GuestId
         };
     }
 }

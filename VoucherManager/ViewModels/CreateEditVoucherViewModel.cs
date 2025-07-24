@@ -39,6 +39,7 @@ public class CreateEditVoucherViewModel
 
     [StringLength(50, ErrorMessage = "Numer faktury nie może przekraczać 50 znaków.")]
     public string? InovoiceNumber { get; set; }
+    public int? GuestId { get; set; }
     public List<SelectListItem> StatusList { get; set; } = Status.Nieaktywny.ToSelectList().ToList();
     public List<SelectListItem> VoucherTypeList { get; set; } = VoucherType.Pobytowy.ToSelectList().ToList();
 }

@@ -7,6 +7,7 @@
 <h1>Aktualizacja Vouchera: @Model.SerialNumber</h1>
 
 <a class="btn btn-warning" asp-action="Edit" asp-route-serialNumber="@Model.SerialNumber">Edytuj</a>
+<button class="btn btn-danger deleteVoucherBtn" data-bs-toggle="modal" data-bs-target="#deleteVoucherModal" id="delete-asset-button" data-serialNumber="@Model.SerialNumber">Usuń</button>
 <div>
     <dl class="row">
         <dt class = "col-sm-2">
@@ -80,4 +81,22 @@
 }
 <div>
     <a asp-action="Index">Wróć do listy</a>
+</div>
+
+<div class="modal fade" id="deleteVoucherModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Usuń Voucher</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Jesteś pewny że chcesz usunąć voucher o nr: <span id="voucher-data"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Nie</button>
+                <button type="button" class="btn btn-danger" id="submit-voucher-delete">Tak</button>
+            </div>
+        </div>
+    </div>
 </div>
