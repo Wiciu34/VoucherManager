@@ -88,7 +88,7 @@ public class VoucherController : Controller
             voucher = _voucherActivationBuilder
                 .SetActivationDate()
                 .SetExpirationDate()
-                .SetStatus(Status.Aktywny)
+                .SetStatus(Status.Aktywowany)
                 .SetSellDate(null)
                 .SetGuest(guest)
                 .SetInvoiceNumber(activationVoucher.InvoiceNumber)
@@ -113,7 +113,7 @@ public class VoucherController : Controller
         {
             var voucher = await _voucherRepository.GetVoucherBySerialNumberAsync(serialNumber);
 
-            if (voucher.Status != Status.Aktywny)
+            if (voucher.Status != Status.Aktywowany)
             {
                 throw new InvalidOperationException($"Voucher o statusie {voucher.Status.ToString()} nie może zostać zakończony");
             }
@@ -121,7 +121,7 @@ public class VoucherController : Controller
             _voucherActivationBuilder.SetVoucher(voucher);
 
             voucher = _voucherActivationBuilder.SetRealizationDate(date)
-                .SetStatus(Status.Zrealizowany)
+                .SetStatus(Status.Zrealizowano)
                 .Build();
 
             await _voucherRepository.UpdateVoucherAsync(voucher);
@@ -207,7 +207,7 @@ public class VoucherController : Controller
         
         var voucher = model.ToVoucher();
 
-        if (voucher.Status != Status.Aktywny && voucher.Status != Status.Zrealizowany) voucher.GuestId = null;
+        if (voucher.Status != Status.Aktywowany && voucher.Status != Status.Zrealizowano) voucher.GuestId = null;
 
         await _voucherRepository.UpdateVoucherAsync(voucher);
 

@@ -20,6 +20,7 @@ public static class VoucherMapper
             RealizationDate = voucher.RealizationDate?.ToString("dd-MM-yyyy"),
             Resort = voucher.Resort,
             Status = voucher.Status.ToString(),
+            InvoiceNumber = voucher.InovoiceNumber,
             Attractions = voucher.Attractions?.Select(a => new AttractionDTO
             {
                 Content = a.Content

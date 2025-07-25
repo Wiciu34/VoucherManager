@@ -2,9 +2,9 @@
 
 public enum Status
 {
-    Aktywny,
+    Aktywowany,
     Nieaktywny,
-    Zrealizowany,
+    Zrealizowano,
     Niezrealizowany,
     Anulowany,
 }

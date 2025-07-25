@@ -13,6 +13,7 @@ public class VoucherDTO
     public string? RealizationDate { get; set; }
     public required string Resort { get; set; }
     public required string Status { get; set; }
+    public string? InvoiceNumber { get; set; }
     public IEnumerable<AttractionDTO>? Attractions { get; set; }
     public GuestDTO? Guest { get; set; }
 

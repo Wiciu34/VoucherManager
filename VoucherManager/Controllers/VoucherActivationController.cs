@@ -53,7 +53,7 @@ public class VoucherActivationController : Controller
             voucher = _voucherActivationBuilder
                 .SetActivationDate()
                 .SetExpirationDate()
-                .SetStatus(Status.Aktywny)
+                .SetStatus(Status.Aktywowany)
                 .SetGuest(guest)
                 .Build();
 
