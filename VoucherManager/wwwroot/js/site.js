@@ -15,7 +15,7 @@
             {
                 "data": null,
                 "render": function (data, type, row) {
-                    if (row.status === "Aktywny") {
+                    if (row.status === "Aktywowany") {
                         return `<a href="/Details/${row.serialNumber}" class="btn btn-secondary"><i class="bi bi-info-square"></i></a>
                         <button class="btn btn-warning voucher-realization-btn" data-serialNumber="${data.serialNumber}" data-bs-toggle="modal" data-bs-target="#realizationModal"><i class="bi bi-bookmark-x"></i></button>`
                     }
@@ -129,6 +129,7 @@
                         voucherTable.ajax.reload();
                         toast.show('Voucher został aktywowany.')
                     } else {
+                        $('#activationModal').modal('hide');
                         displayValidationErrors(response.errors)
                         toast.show(response.message, 'danger');
                     }

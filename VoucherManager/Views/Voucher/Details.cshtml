@@ -4,83 +4,103 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Aktualizacja Vouchera: @Model.SerialNumber</h1>
 
-<a class="btn btn-warning" asp-action="Edit" asp-route-serialNumber="@Model.SerialNumber">Edytuj</a>
-<button class="btn btn-danger deleteVoucherBtn" data-bs-toggle="modal" data-bs-target="#deleteVoucherModal" id="delete-asset-button" data-serialNumber="@Model.SerialNumber">Usuń</button>
-<div>
-    <dl class="row">
-        <dt class = "col-sm-2">
-            Typ Vouchera:
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VoucherType)
-        </dd>
-        @if(Model.Amount != null)
-        {
-            <dt class="col-sm-2">
-                Kwota:
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Amount)
-            </dd>
-        }
-        <dt class = "col-sm-2">
-            Data Sprzedaży:
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SellDate)
-        </dd>
-        <dt class="col-sm-2">
-            Data aktywacji:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ActivationDate)
-        </dd>
-        <dt class = "col-sm-2">
-            Data ważności:
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ExpirationDate)
-        </dd>
-        <dt class="col-sm-2">
-            Data realizacji:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.RealizationDate)
-        </dd>
-        <dt class = "col-sm-2">
-            Ośrodek:
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Resort)
-        </dd>
-        <dt class = "col-sm-2">
-            Status:
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-    </dl>
-</div>
-@if (Model.Attractions.Any())
-{
-    <h2>Lista Atrakcji</h2>
-    <ul>
-        @foreach (var item in Model.Attractions)
-        {
-            <li>@item.Content</li>
-        }
-    </ul>
-}
-@if (Model.Guest != null)
-{
-    <h2>Gość:</h2>
-    <h4>Addres email: @Model.Guest.Email</h4>
-    <h4>Numer telefonu: @Model.Guest.PhoneNumber</h4>
-}
-<div>
-    <a asp-action="Index">Wróć do listy</a>
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-primary">Voucher: @Model.SerialNumber</h1>
+        <div>
+            <a class="btn btn-warning me-2" asp-action="Edit" asp-route-serialNumber="@Model.SerialNumber">
+                <i class="bi bi-pencil-square"></i> Edytuj
+            </a>
+            <button class="btn btn-danger deleteVoucherBtn"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteVoucherModal"
+                    id="delete-asset-button"
+                    data-serialNumber="@Model.SerialNumber">
+                <i class="bi bi-trash"></i> Usuń
+            </button>
+        </div>
+    </div>
+
+    <div class="card shadow-sm rounded-3 mb-4">
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-4 fw-semibold">Typ Vouchera:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.VoucherType)</dd>
+
+                @if (Model.Amount != null)
+                {
+                    <dt class="col-sm-4 fw-semibold">Kwota:</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Amount)</dd>
+                }
+
+                <dt class="col-sm-4 fw-semibold">Data Sprzedaży:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.SellDate)</dd>
+
+                <dt class="col-sm-4 fw-semibold">Data Aktywacji:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.ActivationDate)</dd>
+
+                <dt class="col-sm-4 fw-semibold">Data Ważności:</dt>
+                <dd class="col-sm-8">
+                    @if (Model.RealizationDate != null)
+                    {
+                        <span class="text-decoration-line-through">
+                            @Html.DisplayFor(model => model.ExpirationDate)
+                        </span>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => model.ExpirationDate)
+                    }
+                </dd>
+
+                <dt class="col-sm-4 fw-semibold">Data Realizacji:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.RealizationDate)</dd>
+
+                <dt class="col-sm-4 fw-semibold">Ośrodek:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Resort)</dd>
+
+                <dt class="col-sm-4 fw-semibold">Status:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Status)</dd>
+                
+                <dt class="col-sm-4 fw-semibold">Numer faktury:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.InvoiceNumber)</dd>
+            </dl>
+        </div>
+    </div>
+
+    @if (Model.Attractions.Any())
+    {
+        <div class="card shadow-sm rounded-3 mb-4">
+            <div class="card-header bg-light fw-semibold">
+                Lista Atrakcji
+            </div>
+            <ul class="list-group list-group-flush">
+                @foreach (var item in Model.Attractions)
+                {
+                    <li class="list-group-item">@item.Content</li>
+                }
+            </ul>
+        </div>
+    }
+
+    @if (Model.Guest != null)
+    {
+        <div class="card shadow-sm rounded-3 mb-4">
+            <div class="card-header bg-light fw-semibold">
+                Dane Gościa
+            </div>
+            <div class="card-body">
+                <p class="mb-1"><strong>Email:</strong> @Model.Guest.Email</p>
+                <p class="mb-0"><strong>Telefon:</strong> @Model.Guest.PhoneNumber</p>
+            </div>
+        </div>
+    }
+
+    <a class="btn btn-outline-secondary" asp-action="Index">
+        <i class="bi bi-arrow-left"></i> Wróć do listy
+    </a>
 </div>
 
 <div class="modal fade" id="deleteVoucherModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
